@@ -10,7 +10,8 @@ This client is by no-means feature complete or ready for real world usage. It ne
 * you'll also need an "airplanes" table with flarm ID's you want to track, for the getfilter() method. Or you can just hardcode a filter for the aprs client.
 
 **Do \_NOT\_ use the igc.php file!**
-this file is only present to serve as an example of how to generate an IGC file from the logs in ognlogs. 
+this file is only present to serve as an example of how to generate an IGC file from the logs in ognlogs. Create your own functions to do this in your environment or wait till I have time to make A proper class for it.
+
 check the [openlayers igc example](http://openlayers.org/en/v3.8.1/examples/igc.html) if you want to show the IGC in a webbrowser.
 
 As said before, this class has some rough edges so handle with care!
