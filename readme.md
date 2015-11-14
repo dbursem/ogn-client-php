@@ -6,6 +6,11 @@ This client is by no-means feature complete or ready for real world usage. It ne
 * get the [phpaprs](https://github.com/dbursem/phpaprs) library
 * in the aprsbot.php file, create an instance of OGNClient
 * make a call to savePositions() of the above created instance of OGNClient in the while loop
-* make sure you have a database table to save the positions to. Check the savePositions method for some hints about the database structure.
+* make sure you have an "ognlogs" table to save the positions to. Check the savePositions method for some hints about the table structure
+* you'll also need an "airplanes" table with flarm ID's you want to track, for the getfilter() method. Or you can just hardcode a filter for the aprs client.
+
+**Do \_NOT\_ use the igc.php file!**
+this file is only present to serve as an example of how to generate an IGC file from the logs in ognlogs. 
+google "openlayers IGC example" for example code for how to show the IGC in a webbrowser.
 
 As said before, this class has some rough edges so handle with care!

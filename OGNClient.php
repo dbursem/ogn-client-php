@@ -91,8 +91,8 @@ class OGNClient
             unset($this->buffer[$key]);
         }
         $qm = implode(',',$qm_array);
-
-        $q = 'INSERT INTO cms_module_flightdb_ognlogs (flarm_id, log_time, latitude, longitude, altitude, receiver ) VALUES '. $qm;
+for
+        $q = 'INSERT INTO ognlogs (flarm_id, log_time, latitude, longitude, altitude, receiver ) VALUES '. $qm;
         $statement = $this->db->prepare($q);
         $statement->execute($params);
         $this->lastsave = time();
@@ -123,7 +123,7 @@ class OGNClient
     }
     function getFilter()
     {
-        $q = 'SELECT flarm_id FROM cms_module_flightdb_airplanes';
+        $q = 'SELECT flarm_id FROM airplanes';
         $statement = $this->db->query($q);
         $airplanes = $statement->fetchAll(PDO::FETCH_COLUMN);
 
