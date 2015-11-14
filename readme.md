@@ -11,6 +11,6 @@ This client is by no-means feature complete or ready for real world usage. It ne
 
 **Do \_NOT\_ use the igc.php file!**
 this file is only present to serve as an example of how to generate an IGC file from the logs in ognlogs. 
-google "openlayers IGC example" for example code for how to show the IGC in a webbrowser.
+check the [openlayers igc example](http://openlayers.org/en/v3.8.1/examples/igc.html) if you want to show the IGC in a webbrowser.
 
 As said before, this class has some rough edges so handle with care!
