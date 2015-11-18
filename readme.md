@@ -3,7 +3,7 @@
 This client is by no-means feature complete or ready for real world usage. It needs a lot of work. The only reason I've uploaded it already is because I don't want to keep it from you any longer.
 
 ##Install
-* create a composer.json file with the following content:
+* ~~run composer require dbursem/ogn-client-php.~~ create a composer.json file with the following content:
  ```
  {"require":"dbursem/ogn-client-php":"1.*@dev","dbursem/phpaprs":"1.*@dev"}}
  ```
