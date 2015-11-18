@@ -1,10 +1,9 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: david
- * Date: 28-10-15
- * Time: 21:03
+ * Created by DBUrsem
+ * License: GPLv3
  */
+namespace dbursem\OGNClient;
 
 class OGNClient
 {
@@ -37,7 +36,7 @@ class OGNClient
             //enhanced precision string not found
             $precision = ['', '', ''];
         }
-        $datetime = new DateTime('NOW',new DateTimeZone('UTC'));
+        $datetime = new \DateTime('NOW',new \DateTimeZone('UTC'));
         $datetime->setTime($matches[1],$matches[2],$matches[3]);
 
         $lat_deg = $matches[4];
@@ -84,6 +83,7 @@ class OGNClient
         $this->debug('in savePositions() - trying to save buffer to db');
 
         $params = [];
+        $qm_array = [];
         foreach ($this->buffer as $key => $value)
         {
             $params = array_merge($params, $value);
@@ -91,7 +91,6 @@ class OGNClient
             unset($this->buffer[$key]);
         }
         $qm = implode(',',$qm_array);
-for
         $q = 'INSERT INTO ognlogs (flarm_id, log_time, latitude, longitude, altitude, receiver ) VALUES '. $qm;
         $statement = $this->db->prepare($q);
         $statement->execute($params);
@@ -103,12 +102,12 @@ for
     {
         try
         {
-            $this->db = new PDO("mysql:host=$dbhost;dbname=$dbname;charset=utf8", $dbuser, $dbpass);
+            $this->db = new \PDO("mysql:host=$dbhost;dbname=$dbname;charset=utf8", $dbuser, $dbpass);
             if ($this->debug) {
-                $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                $this->db->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
             }
         }
-        catch(PDOException $e)
+        catch(\PDOException $e)
         {
             echo "An Error occured!"; //user friendly message
             echo $e->getMessage();
@@ -124,9 +123,12 @@ for
     function getFilter()
     {
         $q = 'SELECT flarm_id FROM airplanes';
-        $statement = $this->db->query($q);
-        $airplanes = $statement->fetchAll(PDO::FETCH_COLUMN);
-
-        return 'b/' . implode('/',$airplanes);
+        if ($statement = $this->db->query($q))
+        {
+            $airplanes = $statement->fetchAll(\PDO::FETCH_COLUMN);
+            return 'b/' . implode('/', $airplanes);
+        }
+        else
+            return '';
     }
 }
