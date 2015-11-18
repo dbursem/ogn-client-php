@@ -1,5 +1,5 @@
 {
-  "name": "dbursem/ong-client-php",
+  "name": "dbursem/ogn-client-php",
   "type": "library",
   "description": "OGN client implementation",
   "keywords": ["APRS","OGN","Glidernet","Open Glider Net"],

@@ -13,7 +13,6 @@ class OGNClient
     private $debug = false;
     private $lastsave = 0;
 
-
     function __construct($dbname,$dbuser,$dbpass,$dbhost='localhost', $debug = false)
     {
         $this->pdo_connect($dbname,$dbuser,$dbpass,$dbhost);
@@ -91,7 +90,7 @@ class OGNClient
             unset($this->buffer[$key]);
         }
         $qm = implode(',',$qm_array);
-        $q = 'INSERT INTO ognlogs (flarm_id, log_time, latitude, longitude, altitude, receiver ) VALUES '. $qm;
+        $q = 'INSERT INTO ogn_logs (flarm_id, log_time, latitude, longitude, altitude, receiver ) VALUES '. $qm;
         $statement = $this->db->prepare($q);
         $statement->execute($params);
         $this->lastsave = time();
