@@ -64,6 +64,7 @@ class OGNClient
         );
         $this->buffer[] = $output;
         $this->debug('added to buffer: '. implode($output,' / '));
+        return true;
     }
     function savePositions($timer=10)
     {
@@ -92,9 +93,18 @@ class OGNClient
         $qm = implode(',',$qm_array);
         $q = 'INSERT INTO ogn_logs (flarm_id, log_time, latitude, longitude, altitude, receiver ) VALUES '. $qm;
         $statement = $this->db->prepare($q);
-        $statement->execute($params);
-        $this->lastsave = time();
-        $this->debug("buffer saved to DB");
+        if ($statement->execute($params))
+        {
+            $this->debug("buffer saved to DB");
+            $this->debug('used query: ' . $q);
+            $this->lastsave = time();
+            return true;
+        }
+        else
+        {
+            $this->debug("buffer not saved");
+            return true;
+        }
     }
 
     function pdo_connect($dbname,$dbuser,$dbpass,$dbhost='localhost')
