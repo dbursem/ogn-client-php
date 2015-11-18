@@ -3,7 +3,12 @@
 This client is by no-means feature complete or ready for real world usage. It needs a lot of work. The only reason I've uploaded it already is because I don't want to keep it from you any longer.
 
 ##Install
-* run `composer require dbursem/ogn-client-php`. Check http://getcomposer.org for more info on composer.
+* ~~run `composer require dbursem/ogn-client-php`. ~~ create a composer.json file with the following content:
+ ```json
+ {"require":"dbursem/ogn-client-php":"1.*@dev","dbursem/phpaprs":"1.*@dev"}}
+ ```
+ then, run `composer install`. I think this is the best way untill I dare to remove the beta flag from the packages. 
+ Check http://getcomposer.org for more info on composer.
 * install the database schema from the ogn-client-db.sql file
 
 ##Usage
