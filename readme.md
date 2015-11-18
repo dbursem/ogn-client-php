@@ -7,9 +7,9 @@ This client is by no-means feature complete or ready for real world usage. It ne
 * install the database schema from the ogn-client-db.sql file
 
 ##Usage
-There's an example aprsbot.php file in the example directory that implements the OGN client. Using this will be the easiest way to get started. Call it from the commandline with `php aprsbot.php`.  
-
-Don't forget to copy the aprsbot.cfg.php file to local.aprsbot.cfg.php and edit it with your personal settings. OGN server and port are already in it.  
+* There's an example aprsbot.php file in the example directory that implements the OGN client. Using this will be the easiest way to get started. Call it from the commandline with `php aprsbot.php`.  
+* Copy the aprsbot.cfg.php file to local.aprsbot.cfg.php and edit it with your personal settings. OGN server and port are already in it.  
+* Set the filter to a valid [APRS filter](http://www.aprs-is.net/javAPRSFilter.aspx), or use the $ogn->getFilter() method to automatically create a filter that selects all known aircraft from the aircraft table. 
 
 
 ###Minimal steps to create your own aprsbot:
