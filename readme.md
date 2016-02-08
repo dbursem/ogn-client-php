@@ -3,18 +3,14 @@
 This client is by no-means feature complete or ready for real world usage. It needs a lot of work. The only reason I've uploaded it already is because I don't want to keep it from you any longer.
 
 ##Install
-* ~~run composer require dbursem/ogn-client-php.~~ create a composer.json file with the following content:
- ```
- {"require":"dbursem/ogn-client-php":"1.*@dev","dbursem/phpaprs":"1.*@dev"}}
- ```
- then, run `composer install`. I think this is the best way untill I dare to remove the beta flag from the packages. 
- Check http://getcomposer.org for more info on composer.
-* install the database schema from the ogn-client-db.sql file
+* run `composer require dbursem/ogn-client-php`. Check http://getcomposer.org for more info on composer.
+* install the database schema from the ogn-client-db.sql file.
 
 ##Usage
-* There's an example aprsbot.php file in the example directory that implements the OGN client. Using this will be the easiest way to get started. Call it from the commandline with `php aprsbot.php`.  
+* Copy the example directory to your install directory  
 * Copy the aprsbot.cfg.php file to local.aprsbot.cfg.php and edit it with your personal settings. OGN server and port are already in it.  
-* Set the filter to a valid [APRS filter](http://www.aprs-is.net/javAPRSFilter.aspx), or use the $ogn->getFilter() method to automatically create a filter that selects all known aircraft from the aircraft table. 
+* Set the filter to a valid [APRS filter](http://www.aprs-is.net/javAPRSFilter.aspx). If you leave it empty, a filter will be used that selects only the airplanes in the database. 
+* Call the example aprsbot from the commandline with `php aprsbot.php`.
 
 
 ###Minimal steps to create your own aprsbot:
