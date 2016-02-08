@@ -34,9 +34,12 @@ CREATE TABLE IF NOT EXISTS `airplanes` (
   `type` varchar(100) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
-
 -- --------------------------------------------------------
-
+ALTER TABLE `airplanes`
+  CHANGE COLUMN `flarm_id` `aprs_callsign` VARCHAR(20) NOT NULL,
+    ADD COLUMN `device_id` VARCHAR(6) NOT NULL,
+    ADD COLUMN `device_type` INT(1) NOT NULL
+  AFTER `type`;
 --
 -- Table structure for table `ogn_logs`
 --
@@ -51,6 +54,24 @@ CREATE TABLE IF NOT EXISTS `ogn_logs` (
   `receiver` varchar(20) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
+
+ALTER TABLE `ogn_logs`
+  ADD COLUMN `course` INT(4) NOT NULL,
+  ADD COLUMN `speed` INT(4) NOT NULL,
+  ADD COLUMN `device_type` INT(1) NOT NULL,
+  ADD COLUMN `aircraft_category` INT(1) NOT NULL,
+  ADD COLUMN `notrack` INT(1) NOT NULL,
+  ADD COLUMN `stealth` INT(1) NOT NULL,
+  ADD COLUMN `device_id` VARCHAR(6) NOT NULL,
+  ADD COLUMN `climbrate` INT(4) NOT NULL,
+  ADD COLUMN `rotation` FLOAT NOT NULL,
+  ADD COLUMN `signaltonoise` FLOAT NOT NULL,
+  ADD COLUMN `biterrors` INT(2) NOT NULL,
+  ADD COLUMN `freqency_offset` FLOAT NOT NULL,
+  ADD COLUMN `raw` VARCHAR(200) NOT NULL
+  AFTER `receiver`,
+  CHANGE COLUMN `flarm_id` `aprs_callsign` VARCHAR(20) NOT NULL;
+
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

@@ -20,7 +20,7 @@ $ogn = new OGNClient\OGNClient(DB_NAME,DB_USER,DB_PASS,DB_HOST, $debug);
 $beacon = new packets\APRS_Item(BEACON_LATITUDE, BEACON_LONGITUDE, MYCALL, BEACON_SYMBOL, BEACON_STATUS);
 $beacon->setCallsign(MYCALL);
 
-$filter = $ogn->getFilter();
+$filter = empty(FILTER) ? $ogn->getFilter() : FILTER;
 
 if ($aprs->connect(HOST, PORT, MYCALL, PASSCODE, $filter) == FALSE)
 {
@@ -31,7 +31,6 @@ $lastbeacon = 1;
 
 // Setup our callbacks to process incoming stuff
 $aprs->addCallback(APRSCODE_POSITION_TS, "APRS", array($ogn,"handlePosition"));
-
 
 while (1) {
     // Beacon every BEACON_INTERVAL seconds
