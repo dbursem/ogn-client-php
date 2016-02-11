@@ -214,7 +214,7 @@ class OGNClient
         }
         catch(\PDOException $e)
         {
-            echo "An Error occured!"; //user friendly message
+            $this->debug( "Could not connect to database"); //user friendly message
             echo $e->getMessage();
         }
     }
@@ -227,7 +227,7 @@ class OGNClient
     }
     function getFilter()
     {
-        $q = 'SELECT aprs_callsign FROM airplanes';
+        $q = 'SELECT aprs_callsign FROM airplanes WHERE tracked = 1';
         if ($statement = $this->db->query($q))
         {
             $airplanes = $statement->fetchAll(\PDO::FETCH_COLUMN);
@@ -235,5 +235,84 @@ class OGNClient
         }
         else
             return '';
+    }
+
+    function updateAirplaneTable($new_registrations = [])
+    {
+        $known_aircraft = [];
+
+        //add new registrations to known aircraft
+        foreach ($new_registrations as $row)
+        {
+            //canonicalize registration for matching purposes
+            $known_aircraft[] = strtoupper(str_replace([' ', '_', '-'], '', $row));
+        }
+
+        //add existing registrations to known aircraft
+        $q = 'SELECT registration_canonical FROM ogn_airplanes';
+        foreach ($this->db->query($q) as $row)
+        {
+            $known_aircraft[] = $row['registration_canonical'];
+        }
+
+        //get a copy of the DDB
+        $ddb_url = 'http://ddb.glidernet.org/download?j=1';
+        $ddb = json_decode(file_get_contents($ddb_url), true);
+
+        $q = 'REPLACE INTO ogn_airplanes (
+        device_type,
+        device_id,
+        aprs_callsign,
+        aircraft_model,
+        registration,
+        callsign,
+        tracked,
+        identified,
+        registration_canonical
+        )
+        VALUES (?,?,?,?,?,?,?,?,?)';
+        $stmt = $this->db->prepare($q);
+
+        //cycle through the DDB to find matches for our known aircraft
+        foreach ($ddb['devices'] as $ddb_device)
+        {
+            $ddb_acreg_canonical = strtoupper(str_replace([' ', '_', '-'], '', $ddb_device['registration']));
+
+            if (!in_array($ddb_acreg_canonical, $known_aircraft))
+            {
+                //no match, skip to next iteration
+                continue;
+            }
+
+            //match found!
+            switch ($ddb_device['device_type'])
+            {
+                case 'O':
+                    $aprs_callsign = 'OGN' . $ddb_device['device_id'];
+                    break;
+                case 'I':
+                    $aprs_callsign = 'ICA' . $ddb_device['device_id'];
+                    break;
+                case 'F':
+                default:
+                    $aprs_callsign = 'FLR' . $ddb_device['device_id'];
+                    break;
+            }
+
+            $params = array(
+                $ddb_device['device_type'],
+                $ddb_device['device_id'],
+                $aprs_callsign,
+                $ddb_device['aircraft_model'],
+                $ddb_device['registration'],
+                $ddb_device['cn'],
+                ($ddb_device['tracked'] == 'Y'),
+                ($ddb_device['identified'] == 'Y'),
+                $ddb_acreg_canonical,
+            );
+            $stmt->execute($params);
+        }
+
+        $this->debug("ddb update completed");
     }
 }

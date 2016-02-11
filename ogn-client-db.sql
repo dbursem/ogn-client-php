@@ -26,20 +26,21 @@ SET time_zone = "+00:00";
 -- Table structure for table `airplanes`
 --
 
-CREATE TABLE IF NOT EXISTS `airplanes` (
+CREATE TABLE IF NOT EXISTS `ogn_airplanes` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `registration` varchar(10) NOT NULL,
-  `flarm_id` varchar(9) NOT NULL,
+  `aprs_callsign` varchar(20) NOT NULL,
   `callsign` varchar(10) NOT NULL,
-  `type` varchar(100) NOT NULL,
+  `aircraft_model` varchar(100) NOT NULL,
+  `device_id` VARCHAR(6) NOT NULL,
+  `device_type` VARCHAR(1) NOT NULL,
+  `tracked` BOOLEAN NOT NULL,
+  `identified` BOOLEAN NOT NULL,
+  `registration_canonical` VARCHAR(10) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
 -- --------------------------------------------------------
-ALTER TABLE `airplanes`
-  CHANGE COLUMN `flarm_id` `aprs_callsign` VARCHAR(20) NOT NULL,
-    ADD COLUMN `device_id` VARCHAR(6) NOT NULL,
-    ADD COLUMN `device_type` INT(1) NOT NULL
-  AFTER `type`;
+
 --
 -- Table structure for table `ogn_logs`
 --
