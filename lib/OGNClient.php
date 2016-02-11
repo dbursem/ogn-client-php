@@ -227,7 +227,7 @@ class OGNClient
     }
     function getFilter()
     {
-        $q = 'SELECT aprs_callsign FROM airplanes WHERE tracked = 1';
+        $q = 'SELECT aprs_callsign FROM ogn_airplanes WHERE tracked = 1';
         if ($statement = $this->db->query($q))
         {
             $airplanes = $statement->fetchAll(\PDO::FETCH_COLUMN);
