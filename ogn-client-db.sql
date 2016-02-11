@@ -29,7 +29,7 @@ SET time_zone = "+00:00";
 CREATE TABLE IF NOT EXISTS `ogn_airplanes` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `registration` varchar(10) NOT NULL,
-  `aprs_callsign` varchar(20) NOT NULL,
+  `aprs_callsign` varchar(20) NOT NULL UNIQUE,
   `callsign` varchar(10) NOT NULL,
   `aircraft_model` varchar(100) NOT NULL,
   `device_id` VARCHAR(6) NOT NULL,
