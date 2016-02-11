@@ -259,6 +259,7 @@ class OGNClient
         $ddb_url = 'http://ddb.glidernet.org/download?j=1';
         $ddb = json_decode(file_get_contents($ddb_url), true);
 
+        //prepare the update query
         $q = 'REPLACE INTO ogn_airplanes (
         device_type,
         device_id,
@@ -285,6 +286,8 @@ class OGNClient
             }
 
             //match found!
+
+            //compose APRS callsign
             switch ($ddb_device['device_type'])
             {
                 case 'O':
@@ -299,6 +302,7 @@ class OGNClient
                     break;
             }
 
+            //insert this record into database
             $params = array(
                 $ddb_device['device_type'],
                 $ddb_device['device_id'],
