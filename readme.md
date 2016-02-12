@@ -1,6 +1,6 @@
 #OGN APRS client
 
-This client is by no-means feature complete or ready for real world usage. It needs a lot of work. The only reason I've uploaded it already is because I don't want to keep it from you any longer.
+This client can be used to track aircraft and save their logs to a database. Saving other beacons is not (yet) supported.
 
 ##Install
 * run `composer require dbursem/ogn-client-php`. Check http://getcomposer.org for more info on composer.
