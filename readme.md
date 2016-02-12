@@ -5,13 +5,16 @@ This client can be used to track aircraft and save their logs to a database. Sav
 ##Install
 * run `composer require dbursem/ogn-client-php`. Check http://getcomposer.org for more info on composer.
 * install the database schema from the ogn-client-db.sql file.
-
-##Usage
 * Copy the example directory to your install directory  
 * Copy the aprsbot.cfg.php file to local.aprsbot.cfg.php and edit it with your personal settings. OGN server and port are already in it.  
 * Set the filter to a valid [APRS filter](http://www.aprs-is.net/javAPRSFilter.aspx). If you leave it empty, a filter will be used that selects only the airplanes in the database. 
-* Call the example aprsbot from the commandline with `php aprsbot.php`.
 
+##Usage
+* Call the example aprsbot from the commandline with `php aprsbot.php`.
+* you'll see some debug info and hopefully logs will be added to your database. 
+* set debug to false in aprsbot.php (line 7) to stop the debug messages
+Be noted: This is a daemon that should run in the background indefinately. All it does is saving coordinates to a database. 
+There's no use in trying to call it through a webserver, as there's no output other than the debug messages.
 
 ###Minimal steps to create your own aprsbot:
  
