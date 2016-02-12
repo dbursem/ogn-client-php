@@ -12,7 +12,8 @@ This client can be used to track aircraft and save their logs to a database. Sav
 ##Usage
 * Call the example aprsbot from the commandline with `php aprsbot.php`.
 * you'll see some debug info and hopefully logs will be added to your database. 
-* set debug to false in aprsbot.php (line 7) to stop the debug messages
+* set debug to false in aprsbot.php (line 7) to stop the debug messages.
+
 Be noted: This is a daemon that should run in the background indefinately. All it does is saving coordinates to a database. 
 There's no use in trying to call it through a webserver, as there's no output other than the debug messages.
 
