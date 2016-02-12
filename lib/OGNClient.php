@@ -25,6 +25,7 @@ class OGNClient
         $this->debug('in handlePosition()');
         $data=$header['aprsdat'];
 
+
         // first, match all info from the APRS Message.
         // I know regexes are hard to read, so I tried to explain what each
         // section selects above, and an examle of the APRS sentence below.
@@ -73,6 +74,7 @@ class OGNClient
             $precision = ['', '', ''];
         }
 
+
         //Next, match the OGN specific extras
         //APRS line: id0ADDE626 -019 fpm +0.0rot 5.5dB 3e -4.3kHz
         preg_match('@\sid([0-9A-F]{2})([0-9A-F]{6})\s@',$data,$bitfield_id);
@@ -82,12 +84,21 @@ class OGNClient
         preg_match('@\s([0-9])e\s@',$data,$biterrors);
         preg_match('@\s([\+\-][0-9\.]{3})kHz@',$data,$freqoffset);
 
+
+
         //bitfield: STttttaa -> S=stealth, T=Notrack, tttt=aicraft type, aa=device type
-        $bitfield = intval('0x'.$bitfield_id[1],0);
-        $device   = ($bitfield & 0b00000011);
-        $aircraft = ($bitfield & 0b00111100) >> 2;
-        $notrack  = ($bitfield & 0b01000000) >> 6; //this will always be 0 because notrack packages are dropped at the receiver level
-        $stealth  = ($bitfield & 0b10000000) >> 7;
+
+        if (isset($bitfield_id[1]))
+        {
+            $bitfield = intval('0x'.$bitfield_id[1],0);
+            $device   = ($bitfield & 0b00000011);
+            $aircraft = ($bitfield & 0b00111100) >> 2;
+            $notrack  = ($bitfield & 0b01000000) >> 6; //this will always be 0 because notrack packages are dropped at the receiver level
+            $stealth  = ($bitfield & 0b10000000) >> 7;
+        }
+        else
+            $device = $aircraft = $notrack = $stealth = $bitfield_id[2] = 0;
+
 
         if ($notrack) //redundant but still...
         {
@@ -130,11 +141,11 @@ class OGNClient
             $notrack,
             $stealth,
             $device_id,
-            $climbrate[1],
-            $rotation[1],
-            $signaltonoise[1],
-            $biterrors[1],
-            $freqoffset[1],
+            isset($climbrate[1])?$climbrate[1]:'', //the isset construction is to prevent illegal offset warnings
+            isset($rotation[1])?$rotation[1]:'',   // these values are not set if the log is not an airplane
+            isset($signaltonoise[1])?$signaltonoise[1]:'',
+            isset($biterrors[1])?$biterrors[1]:'',
+            isset($freqoffset[1])?$freqoffset[1]:'',
             $data,
         );
 
