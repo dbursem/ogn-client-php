@@ -18,6 +18,9 @@ define("PORT",14580);
 define("BEACON_INTERVAL",60*5);
 
 define("FILTER","");
+// Filter example: "r/48/7/700" would filter a big part of europe, so it'll give you lots of test data.
+// Check http://www.aprs-is.net/javAPRSFilter.aspx for more valid filters
+// or leave it blank and provide some aircraft registrations to the $ogn->updateAirplaneTable() method.
 
 define('DB_USER','example');
 define('DB_PASS','example');
