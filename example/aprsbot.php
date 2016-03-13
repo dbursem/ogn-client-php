@@ -25,7 +25,9 @@ $beacon = new packets\APRS_Item(BEACON_LATITUDE, BEACON_LONGITUDE, MYCALL, BEACO
 $beacon->setCallsign(MYCALL);
 
 //update the airplane table with most recent DDB data
-$ogn->updateAirplaneTable(); //optionally provide an array of aircraft registrations you want to add to the airplane table
+//optionally provide an array of aircraft registrations you want to add to the airplane table
+//for example: You could select all known aircraft from your flight administration database.
+$ogn->updateAirplaneTable();
 
 // set the APRS filter (to specify what messages we want to receive)
 $filter = FILTER;

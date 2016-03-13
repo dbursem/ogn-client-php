@@ -12,11 +12,18 @@ class OGNClient
     private $db;
     private $debug = false;
     private $lastsave = 0;
+    private $dbname;
+    private $dbuser;
+    private $dbpass;
+    private $dbhost;
 
     function __construct($dbname,$dbuser,$dbpass,$dbhost='localhost', $debug = false)
     {
-        $this->pdo_connect($dbname,$dbuser,$dbpass,$dbhost);
-
+        $this->dbname = $dbname;
+        $this->dbuser = $dbuser;
+        $this->dbname = $dbname;
+        $this->dbpass = $dbpass;
+        $this->dbhost = $dbhost;
         $this->debug = $debug;
     }
 
@@ -155,6 +162,7 @@ class OGNClient
     }
     function savePositions($timer=10)
     {
+
         if (time() - $this->lastsave < $timer) {
             //not time to save yet
             $this->debug('in savePositions() - not time to save yet');
@@ -168,6 +176,7 @@ class OGNClient
         }
 
         $this->debug('in savePositions() - trying to save buffer to db');
+        $this->pdo_connect();
 
         $params = [];
         $qm_array = [];
@@ -205,20 +214,21 @@ class OGNClient
             $this->debug("buffer saved to DB");
             $this->debug('used query: ' . $q);
             $this->lastsave = time();
-            return true;
+
         }
         else
         {
             $this->debug("buffer not saved");
-            return true;
         }
+        $this->pdo_disconnect();
+        return true;
     }
 
-    function pdo_connect($dbname,$dbuser,$dbpass,$dbhost='localhost')
+    function pdo_connect()
     {
         try
         {
-            $this->db = new \PDO("mysql:host=$dbhost;dbname=$dbname;charset=utf8", $dbuser, $dbpass);
+            $this->db = new \PDO("mysql:host=$this->dbhost;dbname=$this->dbname;charset=utf8", $this->dbuser, $this->dbpass);
             if ($this->debug) {
                 $this->db->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
             }
@@ -229,6 +239,10 @@ class OGNClient
             echo $e->getMessage();
         }
     }
+    function pdo_disconnect()
+    {
+        $this->db = null;
+    }
 
     function debug($str)
     {
@@ -238,18 +252,24 @@ class OGNClient
     }
     function getFilter()
     {
+        $this->pdo_connect();
         $q = 'SELECT aprs_callsign FROM ogn_airplanes WHERE tracked = 1';
         if ($statement = $this->db->query($q))
         {
             $airplanes = $statement->fetchAll(\PDO::FETCH_COLUMN);
+            $this->pdo_disconnect();
             return 'b/' . implode('/', $airplanes);
         }
         else
+        {
+            $this->pdo_disconnect();
             return '';
+        }
     }
 
     function updateAirplaneTable($new_registrations = [])
     {
+        $this->pdo_connect();
         $known_aircraft = [];
 
         //add new registrations to known aircraft
@@ -329,5 +349,6 @@ class OGNClient
         }
 
         $this->debug("ddb update completed");
+        $this->pdo_disconnect();
     }
 }
