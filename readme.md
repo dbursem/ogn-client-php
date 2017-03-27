@@ -1,15 +1,15 @@
-#OGN APRS client
+# OGN APRS client
 
 This client can be used to track aircraft and save their logs to a database. Saving other beacons is not (yet) supported.
 
-##Install
+## Install
 * run `composer require dbursem/ogn-client-php`. Check http://getcomposer.org for more info on composer.
 * install the database schema from the ogn-client-db.sql file.
 * Copy the example directory to your install directory  
 * Copy the aprsbot.cfg.php file to local.aprsbot.cfg.php and edit it with your personal settings. OGN server and port are already in it.  
 * Set the filter to a valid [APRS filter](http://www.aprs-is.net/javAPRSFilter.aspx). If you leave it empty, a filter will be used that selects only the airplanes in the database. 
 
-##Usage
+## Usage
 * Call the example aprsbot from the commandline with `php aprsbot.php`.
 * you'll see some debug info and hopefully logs will be added to your database. 
 * set debug to false in aprsbot.php (line 7) to stop the debug messages.
@@ -17,7 +17,7 @@ This client can be used to track aircraft and save their logs to a database. Sav
 Be noted: This is a daemon that should run in the background indefinately. All it does is saving coordinates to a database. 
 There's no use in trying to call it through a webserver, as there's no output other than the debug messages.
 
-###Minimal steps to create your own aprsbot:
+### Minimal steps to create your own aprsbot:
  
 * Create an instance of APRS:
 ```php
@@ -51,7 +51,7 @@ while (1)
 }
 ```
 
-##About the igc.php file
+## About the igc.php file
 This code won't work as-is, I only bundled the file to serve as an example of how to generate an IGC file from the logs in ognlogs. Create your own functions to do this in your environment or wait till I have time to make A proper class for it.
 
 check the [openlayers igc example](http://openlayers.org/en/v3.8.1/examples/igc.html) if you want to show the IGC in a webbrowser.
