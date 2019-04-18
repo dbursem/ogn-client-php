@@ -7,7 +7,7 @@ namespace dbursem\OGNClient;
 
 class OGNClient
 {
-    private $buffer;
+    private $buffer = [];
     /** @var  $db \PDO */
     private $db;
     private $debug = false;
